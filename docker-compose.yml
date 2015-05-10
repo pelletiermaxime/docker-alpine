@@ -1,0 +1,30 @@
+phpfpm:
+  image: alpine-php-fpm
+  links:
+   - mysql
+  volumes:
+    - .:/var/www/site
+# hhvm:
+#   image: diegomarangoni/hhvm:fastcgi
+#   links:
+#    - mysql
+mysql:
+  # command: mysqld --user=root --verbose
+  image: mysql
+  volumes:
+    - .mysql:/var/lib/mysql
+    - lowmem.cnf:/etc/mysql/conf.d/lowmem.cnf
+  environment:
+    MYSQL_DATABASE: symfony
+    MYSQL_USER: symfony
+    MYSQL_PASSWORD: symfony
+    MYSQL_ALLOW_EMPTY_PASSWORD: yes
+nginx:
+  image: alpine-nginx
+  volumes:
+    # - nginx.conf:/etc/nginx/conf.d/default.conf
+    - .:/var/www/site
+  ports:
+   - "8000:80"
+  links:
+   - phpfpm
