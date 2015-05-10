@@ -3,7 +3,7 @@ phpfpm:
   links:
    - mysql
   volumes:
-    - .:/var/www/site
+    - .:/var/www/site/public
 # hhvm:
 #   image: diegomarangoni/hhvm:fastcgi
 #   links:
@@ -15,15 +15,15 @@ mysql:
     - .mysql:/var/lib/mysql
     - lowmem.cnf:/etc/mysql/conf.d/lowmem.cnf
   environment:
-    MYSQL_DATABASE: symfony
-    MYSQL_USER: symfony
-    MYSQL_PASSWORD: symfony
+    MYSQL_DATABASE: database
+    MYSQL_USER: user
+    MYSQL_PASSWORD: password
     MYSQL_ALLOW_EMPTY_PASSWORD: yes
 nginx:
   image: alpine-nginx
   volumes:
-    # - nginx.conf:/etc/nginx/conf.d/default.conf
-    - .:/var/www/site
+    - nginx.conf:/etc/nginx/nginx.conf
+    - .:/var/www/site/public
   ports:
    - "8000:80"
   links:
