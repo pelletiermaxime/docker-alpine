@@ -1,9 +1,8 @@
-FROM alpine:3.1
+FROM alpine
 
-RUN apk add --update php-fpm
-RUN rm /var/cache/apk/*
+RUN apk add --no-cache php5-fpm
 
-COPY php-fpm.conf /etc/php/
+COPY php-fpm.conf /etc/php5/
 
 EXPOSE 9000
 CMD ["php-fpm"]
